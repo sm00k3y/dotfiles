@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ $# -ne 1 ]; then
+  echo "Specify tmux-session name as a parameter!"
+  exit 1
+fi
+
+tmux new-session -d -s $1
+
+tmux rename-window -t $1:0 'code'
+tmux send-keys -t $1:0 'nvim .' C-m
+
+tmux new-window -t $1:1 -n 'run'
+
+tmux new-window -t $1:2 -n 'terminal'
+
+tmux attach-session -t $1
